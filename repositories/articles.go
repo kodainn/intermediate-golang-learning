@@ -40,7 +40,7 @@ func SelectArticleList(db *sql.DB, page int) ([]models.Article, error) {
 		limit ? offset ?;
 	`
 
-	rows, err := db.Query(sqlStr, articleNumPage * (page - 1), articleNumPage)
+	rows, err := db.Query(sqlStr, articleNumPage, articleNumPage*(page-1))
 	if err != nil {
 		return []models.Article{}, err
 	}
@@ -109,7 +109,7 @@ func UpdateNiceNum(db *sql.DB, articleID int) error {
 	}
 
 	const sqlUpdateNice = `update articles set nice = ? where article_id = ?`
-	_, err = tx.Exec(sqlUpdateNice, niceNum + 1, articleID)
+	_, err = tx.Exec(sqlUpdateNice, niceNum+1, articleID)
 	if err != nil {
 		tx.Rollback()
 		return err
