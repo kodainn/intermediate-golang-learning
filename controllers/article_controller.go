@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"strconv"
 
@@ -17,6 +18,10 @@ type ArticleController struct {
 
 func NewArticleController(s services.ArticleServicer) *ArticleController {
 	return &ArticleController{service: s}
+}
+
+func (c *ArticleController) HelloHandler(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "Hello, world!\n")
 }
 
 func (c *ArticleController) PostArticleHandler(w http.ResponseWriter, req *http.Request) {
